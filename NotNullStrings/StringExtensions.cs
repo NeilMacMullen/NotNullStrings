@@ -1,4 +1,6 @@
-﻿namespace NotNullStrings;
+﻿// ReSharper disable UnusedMember.Global
+
+namespace NotNullStrings;
 
 public static class StringExtensions
 {
@@ -24,26 +26,26 @@ public static class StringExtensions
     /// <summary>
     ///     Splits string into array of non-empty tokens separated by any of the characters in separationChars
     /// </summary>
-    public static string[] Tokenise(this string input, string separationCharacters)
+    public static string[] Tokenize(this string? input, string separationCharacters)
     {
-        if (input == null)
-            return [];
-        return input.Split(separationCharacters.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-            .Select(t => t.Trim())
-            .Where(t => t.Length != 0)
-            .ToArray();
+        return input == null
+            ? []
+            : input.Split(separationCharacters.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .Select(t => t.Trim())
+                .Where(t => t.Length != 0)
+                .ToArray();
     }
 
     /// <summary>
-    ///     Tokenises all strings in input into a single array by splitting at any of separationCharacters
+    ///     Tokenizes all strings in input into a single array by splitting at any of separationCharacters
     /// </summary>
-    public static string[] Tokenise(this IEnumerable<string> input, string separationCharacters)
-        => input.SelectMany(s => s.Tokenise(separationCharacters)).ToArray();
+    public static string[] Tokenize(this IEnumerable<string> input, string separationCharacters)
+        => input.SelectMany(s => s.Tokenize(separationCharacters)).ToArray();
 
     /// <summary>
     ///     Splits string into array of non-empty tokens separated by space
     /// </summary>
-    public static string[] Tokenise(this string input) => input.Tokenise(" \t");
+    public static string[] Tokenize(this string input) => input.Tokenize(" \t");
 
     public static bool IsBlank(this string s) => string.IsNullOrWhiteSpace(s);
     public static bool IsNotBlank(this string s) => !s.IsBlank();
@@ -56,6 +58,7 @@ public static class StringExtensions
             ? fallback
             : s;
 
-    public static string NullToEmpty(this string s)
+
+    public static string NullToEmpty(this string? s)
         => s ?? string.Empty;
 }
